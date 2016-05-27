@@ -1,13 +1,13 @@
 # zkmvvmcrud #
-ZK MVVM CRUD Sample & Proof of Concept Project
+ZK MVVM CRUD Hibernate JPA Sample & Proof of Concept Project
 
 ![alt text](ss1.jpg "Application Preview 1")
 
 ## Version & Changes:##
-19 May 2016 (initial version):
+27 May 2016 (initial version):
 
-- Used Spring Data JPA as Repository.
-- Used Spring Java Configuration (alternative to Spring XML Config).
+- Used Hibernate Data JPA.
+- Used Spring XML Configuration.
 - Used only ZK MVVM Style for form & CRUD logic.
 - Used Hibernate Validator & ZK's build in BeanValidator scheme.
 - Used entity association bidirectional OneToMany as example.
