@@ -3,7 +3,6 @@ package com.mkdika.zkmvvmcrudhbjpa.cli;
 import com.mkdika.zkmvvmcrudhbjpa.entity.TbExperience;
 import com.mkdika.zkmvvmcrudhbjpa.entity.TbPerson;
 import com.mkdika.zkmvvmcrudhbjpa.service.AppService;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +20,9 @@ public class TestCLI {
     private static final String[] PERSON_NAME = {"Maikel Chandika", "Budi Gunawan", "Jacky Cheung", "Albert Einstin", "Jackson Lee",
         "Sher Jo", "Steve Vai", "Joe Satriani", "Joseph Ray", "Justin Bibir", "Steve Jobs",
         "James Gosling", "Zulfian Kamal", "Darwin Wong", "Otto Motoo", "Peter Lim", "Cornelius Brutos",
-        "Daniel Mars", "Fernandes Gaul"};
-    private static final int TOTAL_DETAIL = 100;
-    
-    public static SimpleDateFormat sdf1 = new SimpleDateFormat("s.SS");
-
+        "Daniel Mars", "Fernandes Gaul","Jony John"};
+    private static final int TOTAL_DETAIL = 10000;
+        
     /**
      * @param args the command line arguments
      */
@@ -33,9 +30,8 @@ public class TestCLI {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");        
         AppService svc = (AppService) context.getBean("appService");
-        
-        Date dt1 = new Date();
-
+          
+        // BEGIN - Insert Process
         for (String s : PERSON_NAME) {
             TbPerson p = new TbPerson();
             p.setFirstname(s.split(" ")[0]);
@@ -62,27 +58,18 @@ public class TestCLI {
             }
 
             try {
-                if (svc.save(p)) {
-                    System.out.println("Save Successful! " + s);
-                }else {
+                if (!svc.save(p)) {
                     System.out.println("Save Failed! " + s);
                 }                
             } catch (javax.persistence.RollbackException e) {
                 System.out.println("Save Failed!\n" + e.getLocalizedMessage());
             }
         }
+        // END - Insert Process
 
-        System.out.println("Load Data");
+        // BEGIN - Read Process        
         List<TbPerson> ts = svc.getTbPersons();
-        for (TbPerson t : ts) {
-            System.out.println(t);
-            for (TbExperience e : t.getExperiences() ) {
-                System.out.println("\t"+e);
-            }
-        }
-
-        Date dt2 = new Date();
-        System.out.println("Process Time: " + processTime(dt1,dt2) + " Sec.");
+        // END - Read Process
     }
 
     private static Date createDate(int d, int m, int y) {
@@ -98,12 +85,5 @@ public class TestCLI {
 
     public static int ranInt(int Min, int Max) {
         return (int) (Math.random() * (Max - Min)) + Min;
-    }
-    
-    public static String processTime(Date dt1, Date dt2) {
-        long milliseconds1 = dt1.getTime();
-        long milliseconds2 = dt2.getTime();
-        long diff = milliseconds2 - milliseconds1;
-        return sdf1.format(new Date(diff));
-    }
+    }        
 }

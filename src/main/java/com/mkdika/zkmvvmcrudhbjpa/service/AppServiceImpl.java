@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,23 +24,21 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(readOnly = false)
     public boolean save(Object obj) {
-//        getCurrentSession().saveOrUpdate(obj);
-//        getCurrentSession().merge(obj);
-        getCurrentSession().save(obj);
+        getCurrentSession().saveOrUpdate(obj);
         return true;
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(readOnly = false)
     public boolean update(Object obj) {
         getCurrentSession().update(obj);
         return true;
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(readOnly = false)
     public boolean delete(Object obj) {
         getCurrentSession().delete(obj);
         return true;
