@@ -20,18 +20,33 @@ public class TestCLI {
     private static final String[] PERSON_NAME = {"Maikel Chandika", "Budi Gunawan", "Jacky Cheung", "Albert Einstin", "Jackson Lee",
         "Sher Jo", "Steve Vai", "Joe Satriani", "Joseph Ray", "Justin Bibir", "Steve Jobs",
         "James Gosling", "Zulfian Kamal", "Darwin Wong", "Otto Motoo", "Peter Lim", "Cornelius Brutos",
-        "Daniel Mars", "Fernandes Gaul","Jony John"};
+        "Daniel Mars", "Fernandes Gaul", "Jony John"};
     private static final int TOTAL_DETAIL = 10000;
-        
+
+    private static ApplicationContext ctx;
+    private static AppService svc;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");        
-        AppService svc = (AppService) context.getBean("appService");
-          
-        // BEGIN - Insert Process
+        // Init the Spring Application Context
+        initAppContext();
+
+        // run the benchmark Insert
+        benchmarkInsert();
+
+        // run the benchmark Read
+        benchmarkRead();
+    }
+
+    private static void initAppContext() {
+        ctx = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        svc = (AppService) ctx.getBean("appService");
+    }
+
+    private static void benchmarkInsert() {
         for (String s : PERSON_NAME) {
             TbPerson p = new TbPerson();
             p.setFirstname(s.split(" ")[0]);
@@ -58,18 +73,15 @@ public class TestCLI {
             }
 
             try {
-                if (!svc.save(p)) {
-                    System.out.println("Save Failed! " + s);
-                }                
+                svc.save(p);
             } catch (javax.persistence.RollbackException e) {
                 System.out.println("Save Failed!\n" + e.getLocalizedMessage());
             }
         }
-        // END - Insert Process
+    }
 
-        // BEGIN - Read Process        
+    private static void benchmarkRead() {
         List<TbPerson> ts = svc.getTbPersons();
-        // END - Read Process
     }
 
     private static Date createDate(int d, int m, int y) {
@@ -85,5 +97,5 @@ public class TestCLI {
 
     public static int ranInt(int Min, int Max) {
         return (int) (Math.random() * (Max - Min)) + Min;
-    }        
+    }
 }
