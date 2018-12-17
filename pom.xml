@@ -12,7 +12,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-         <zk.version>7.0.3</zk.version>
+        <zk.version>7.0.3</zk.version>
         <spring.version>4.2.6.RELEASE</spring.version>
     </properties>
     
@@ -217,6 +217,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.cqengine</groupId>
+            <artifactId>cqengine</artifactId>
+            <version>2.6.0</version>
         </dependency>
         <!-- END - MISCELLANEOUS LIB -->                                                        
     </dependencies>
